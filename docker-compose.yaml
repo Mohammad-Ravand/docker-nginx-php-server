@@ -1,0 +1,16 @@
+services:
+  nginx:
+    image: nginx:stable-alpine
+    volumes:
+      - ./src:/usr/share/nginx/html
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+    depends_on:
+      - php-fpm
+  php-fpm:
+    build:
+      context: .
+      dockerfile: dockerfiles/php.dockerfile
+    volumes:
+      - ./src:/usr/share/nginx/html:delegated
